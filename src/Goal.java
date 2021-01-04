@@ -1,5 +1,3 @@
-package sokoban;
-
 import java.awt.*;
 import java.awt.Graphics2D;
 

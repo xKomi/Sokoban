@@ -1,5 +1,3 @@
-package sokoban;
-
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -8,7 +6,7 @@ import javax.swing.JPanel;
  * Klasa inicjujaca i rysujaca poziom gry.
  */
 
-public class Level extends JPanel {
+public class Level extends JPanel implements Runnable /* KeyListener */ {
 	/**
 	 * Obiekt klasy String przechowujacy sekwencje znakow definiujaca poziom,
 	 * wczytana z pliku konfiguracyjnego.
@@ -18,18 +16,37 @@ public class Level extends JPanel {
 	/**
 	 * Lista przechowujaca obiekty klasy Wall.
 	 */
-	private ArrayList<Wall> Walls;
+	public ArrayList<Wall> Walls;
 
 	/**
 	 * Lista przechowujaca obiekty klasy Box.
 	 */
-	private ArrayList<Box> Boxes;
+	public ArrayList<Box> Boxes;
 
 	/**
 	 * Lista przechowujaca obiekty klasy Goal.
 	 */
-	private ArrayList<Element> Goals;
+	private ArrayList<Goal> Goals;
 
+	/**
+	 * Lista przechowujaca obiekty klasy Portal.
+	 */
+	public ArrayList<Portal> Portals;
+
+	/**
+	 * Pole przechowujace ilosc wykonanych ruchow.
+	 */
+	private int movesCounter = 0;
+
+	/**
+	 * Pole typu boolean informujaca czy poziom zostal ukonczony.
+	 */
+	boolean isCompleted = false;
+
+	/**
+	 * Pole przechowujace liczbe zyc gracza.
+	 */
+	private int numberOfLives;
 
 	/**
 	 * Obiekt klasy Player reprezentujacy gracza.
@@ -41,10 +58,15 @@ public class Level extends JPanel {
 	 * konfiguracyjnych.
 	 *
 	 */
-	public Level() {
-		Config.loadLevelConfig();
+	public Level(int levelID) {
+		Config.loadLevelConfig(levelID);
 		definitionOfLevel = Config.getLevel();
+		numberOfLives = Config.getNumberOfLives();
 		initLevel();
+		this.setVisible(true);
+		this.setFocusable(true);
+		new Collision(this);
+		new KeyBindings(this);
 	}
 
 	/**
@@ -72,10 +94,12 @@ public class Level extends JPanel {
 		Goal goal;
 		Box box;
 		Wall wall;
+		Portal portal;
 
 		Walls = new ArrayList<>();
 		Boxes = new ArrayList<>();
 		Goals = new ArrayList<>();
+		Portals = new ArrayList<>();
 
 		for (int i = 0; i < definitionOfLevel.length(); i++) {
 
@@ -89,29 +113,57 @@ public class Level extends JPanel {
 
 				case '#':
 					collumn++;
-					wall = new Wall(collumn, row);
+					wall = new Wall(row, collumn);
 					Walls.add(wall);
 					break;
 
 				case '$':
 					collumn++;
-					box = new Box(collumn, row);
+					box = new Box(row, collumn);
 					Boxes.add(box);
 					break;
 
 				case '.':
 					collumn++;
-					goal = new Goal(collumn, row);
+					goal = new Goal(row, collumn);
 					Goals.add(goal);
 					break;
 
 				case '@':
 					collumn++;
-					player = new Player(collumn, row);
+					player = new Player(row, collumn);
 					break;
 
 				case ' ':
 					collumn++;
+					break;
+
+				case 'L':
+					collumn++;
+					portal = new Portal(row, collumn);
+					portal.setDirection("LEFT");
+					Portals.add(portal);
+					break;
+
+				case 'R':
+					collumn++;
+					portal = new Portal(row, collumn);
+					portal.setDirection("RIGHT");
+					Portals.add(portal);
+					break;
+
+				case 'U':
+					collumn++;
+					portal = new Portal(row, collumn);
+					portal.setDirection("UP");
+					Portals.add(portal);
+					break;
+
+				case 'D':
+					collumn++;
+					portal = new Portal(row, collumn);
+					portal.setDirection("DOWN");
+					Portals.add(portal);
 					break;
 
 				default:
@@ -136,6 +188,7 @@ public class Level extends JPanel {
 		level.addAll(Walls);
 		level.addAll(Boxes);
 		level.addAll(Goals);
+		level.addAll(Portals);
 		level.add(player);
 
 		for (int i = 0; i < level.size(); i++) {
@@ -144,28 +197,34 @@ public class Level extends JPanel {
 
 			if (item instanceof Wall) {
 				Wall wall = (Wall) level.get(i);
-				wall.setX(widthOfElement * wall.getRow());
-				wall.setY(heightOfElement * wall.getCollumn());
+				wall.setX(widthOfElement * wall.getCollumn());
+				wall.setY(heightOfElement * wall.getRow());
 				wall.setDimension(widthOfElement, heightOfElement);
 				wall.drawWall(g);
 			} else if (item instanceof Box) {
 				Box box = (Box) level.get(i);
-				box.setX(widthOfElement * box.getRow());
-				box.setY(heightOfElement * box.getCollumn());
+				box.setX(widthOfElement * box.getCollumn());
+				box.setY(heightOfElement * box.getRow());
 				box.setDimension(widthOfElement, heightOfElement);
 				box.drawBox(g);
 			} else if (item instanceof Player) {
 				Player player = (Player) level.get(i);
-				player.setX(widthOfElement * player.getRow());
-				player.setY(heightOfElement * player.getCollumn());
+				player.setX(widthOfElement * player.getCollumn());
+				player.setY(heightOfElement * player.getRow());
 				player.setDimension(widthOfElement, heightOfElement);
 				player.drawPlayer(g);
 			} else if (item instanceof Goal) {
 				Goal goal = (Goal) level.get(i);
-				goal.setX(widthOfElement * goal.getRow());
-				goal.setY(heightOfElement * goal.getCollumn());
+				goal.setX(widthOfElement * goal.getCollumn());
+				goal.setY(heightOfElement * goal.getRow());
 				goal.setDimension(widthOfElement, heightOfElement);
 				goal.drawGoal(g);
+			} else if (item instanceof Portal) {
+				Portal portal = (Portal) level.get(i);
+				portal.setX(widthOfElement * portal.getCollumn());
+				portal.setY(heightOfElement * portal.getRow());
+				portal.setDimension(widthOfElement, heightOfElement);
+				portal.drawPortal(g);
 			}
 
 		}
@@ -200,5 +259,74 @@ public class Level extends JPanel {
 			}
 		}
 		return width;
+	}
+
+	/**
+	 * Metoda restartujaca poziom.
+	 */
+	public void restart() {
+		Walls.clear();
+		Boxes.clear();
+		Goals.clear();
+		numberOfLives--;
+		initLevel();
+	}
+
+	/**
+	 * Metoda sprawdzajaca czy poziom zostal ukonczony.
+	 */
+	public void isCompleted() {
+		int correctBoxes = 0;
+		for (int i = 0; i < Boxes.size(); i++) {
+			Box box = Boxes.get(i);
+			for (int j = 0; j < Goals.size(); j++) {
+				Goal goal = Goals.get(j);
+				if (box.getRow() == goal.getRow() && box.getCollumn() == goal.getCollumn()) {
+					correctBoxes++;
+				}
+			}
+		}
+		if (correctBoxes == Boxes.size()) {
+			isCompleted = true;
+			// repaint();
+		}
+	}
+
+	/**
+	 * Metoda zliczajaca liczbe ruchow.
+	 */
+	public void countMove() {
+		movesCounter++;
+	}
+
+	/**
+	 * Getter dla zmiennej movesCounter.
+	 * @return zwraca liczbe wykonanych ruchow.
+	 */
+	public int getMovesCounter() {
+		return movesCounter;
+	}
+
+	/**
+	 * Getter dla zmiennej numberOfLives.
+	 * @return zwraca liczbe zyc.
+	 */
+	public int getNumberOfLives() {
+		return numberOfLives;
+	}
+
+	/**
+	 * Metoda run dla klasy Level.
+	 */
+	@Override
+	public void run() {
+		while (true) {
+			repaint();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException ie) {
+				ie.printStackTrace();
+			}
+		}
 	}
 }

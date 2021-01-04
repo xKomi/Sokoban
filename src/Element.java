@@ -1,17 +1,15 @@
-package sokoban;
-
 /**
  * Klasa bedaca klasa bazowa dla wszystkich elementow znajdujacych sie na
  * planszy.
  */
 public class Element {
     /**
-     * Zmienna liczbowa informujaca, w ktorym rzedzie znajduje sie dany element.
+     * Zmienna liczbowa reprezentujaca szerokosc elementu.
      */
     private int width = 0;
 
     /**
-     * Zmienna liczbowa informujaca, w ktorej kolumnie znajduje sie dany element.
+     * Zmienna liczbowa reprezentujaca wysokosc elementu.
      */
     private int height = 0;
 
@@ -68,6 +66,14 @@ public class Element {
      */
     public int getCollumn() {
         return collumn;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCollumn(int collumn) {
+        this.collumn = collumn;
     }
 
     /**
@@ -133,5 +139,41 @@ public class Element {
     public void setDimension(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    /**
+     * Metoda sprawdzajaca kolizje elementu lewej strony.
+     * @param element obiekt dla ktorego sprawdzamy kolizje.
+     * @return true lub false
+     */
+    public boolean isLeftCollision(Element element){
+        return getRow() == element.getRow() && getCollumn() - 1 == element.getCollumn();
+    }
+
+    /**
+     * Metoda sprawdzajaca kolizje elementu prawej strony.
+     * @param element obiekt dla ktorego sprawdzamy kolizje.
+     * @return true lub false
+     */
+    public boolean isRightCollision(Element element){
+        return getRow() == element.getRow() && getCollumn() + 1 == element.getCollumn();
+    }
+
+    /**
+     * Metoda sprawdzajaca kolizje elementu z gory.
+     * @param element obiekt dla ktorego sprawdzamy kolizje.
+     * @return true lub false
+     */
+    public boolean isUpperCollision(Element element){
+        return getRow() - 1 == element.getRow() && getCollumn() == element.getCollumn();
+    }
+
+    /**
+     * Metoda sprawdzajaca kolizje elementu z dolu.
+     * @param element obiekt dla ktorego sprawdzamy kolizje.
+     * @return true lub false
+     */
+    public boolean isBottomCollision(Element element){
+        return getRow() + 1 == element.getRow() && getCollumn() == element.getCollumn();
     }
 }
