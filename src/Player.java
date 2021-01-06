@@ -24,20 +24,22 @@ public class Player extends Element {
 
     /**
      * Metoda przesuwajaca gracza we wskazanym kierunku.
-     * @param direction obiekt klasy String informujacy w ktorym kierunku gracz sie porusza.
+     * 
+     * @param direction obiekt klasy String informujacy w ktorym kierunku gracz sie
+     *                  porusza.
      */
-    void movePlayer(String direction){
-        if(direction == "VK_LEFT"){
-            setCollumn(getCollumn()-1);
+    void movePlayer(String direction) {
+        if (direction == "VK_LEFT") {
+            setCollumn(getCollumn() - 1);
         }
-        if(direction == "VK_RIGHT"){
-            setCollumn(getCollumn()+1);
+        if (direction == "VK_RIGHT") {
+            setCollumn(getCollumn() + 1);
         }
-        if(direction == "VK_UP"){
-            setRow(getRow()-1);
+        if (direction == "VK_UP") {
+            setRow(getRow() - 1);
         }
-        if(direction == "VK_DOWN"){
-            setRow(getRow()+1);
+        if (direction == "VK_DOWN") {
+            setRow(getRow() + 1);
         }
     }
 }

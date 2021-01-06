@@ -24,20 +24,22 @@ public class Box extends Element {
 
     /**
      * Metoda przesuwajaca pudelko we wskazanym kierunku.
-     * @param direction obiekt klasy String mowiacy, w ktorym kierunku pudelko sie przesuwa (lewo, prawo, gora, dol).
+     * 
+     * @param direction obiekt klasy String mowiacy, w ktorym kierunku pudelko sie
+     *                  przesuwa (lewo, prawo, gora, dol).
      */
-    void moveBox(String direction){
-        if(direction == "LEFT"){
-            setCollumn(getCollumn()-1);
+    void moveBox(String direction) {
+        if (direction == "LEFT") {
+            setCollumn(getCollumn() - 1);
         }
-        if(direction == "RIGHT"){
-            setCollumn(getCollumn()+1);
+        if (direction == "RIGHT") {
+            setCollumn(getCollumn() + 1);
         }
-        if(direction == "UP"){
-            setRow(getRow()-1);
+        if (direction == "UP") {
+            setRow(getRow() - 1);
         }
-        if(direction == "DOWN"){
-            setRow(getRow()+1);
+        if (direction == "DOWN") {
+            setRow(getRow() + 1);
         }
     }
 }

@@ -67,7 +67,7 @@ public class KeyBindings {
                 if (Collision.checkBoxCollision("LEFT")) {
                     return;
                 }
-                if (Collision.checkPortalCollision(level.player, "LEFT")){
+                if (Collision.checkPortalCollision(level.player, "LEFT")) {
                     return;
                 }
                 level.player.movePlayer(actionEvent.getActionCommand());
@@ -80,7 +80,7 @@ public class KeyBindings {
                 if (Collision.checkBoxCollision("RIGHT")) {
                     return;
                 }
-                if (Collision.checkPortalCollision(level.player, "RIGHT")){
+                if (Collision.checkPortalCollision(level.player, "RIGHT")) {
                     return;
                 }
                 level.player.movePlayer(actionEvent.getActionCommand());
@@ -93,7 +93,7 @@ public class KeyBindings {
                 if (Collision.checkBoxCollision("UP")) {
                     return;
                 }
-                if (Collision.checkPortalCollision(level.player, "UP")){
+                if (Collision.checkPortalCollision(level.player, "UP")) {
                     return;
                 }
                 level.player.movePlayer(actionEvent.getActionCommand());
@@ -106,7 +106,7 @@ public class KeyBindings {
                 if (Collision.checkBoxCollision("DOWN")) {
                     return;
                 }
-                if (Collision.checkPortalCollision(level.player, "DOWN")){
+                if (Collision.checkPortalCollision(level.player, "DOWN")) {
                     return;
                 }
                 level.player.movePlayer(actionEvent.getActionCommand());

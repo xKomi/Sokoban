@@ -1,12 +1,16 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.JPanel;
 
 /**
- * Klasa inicjujaca i rysujaca poziom gry.
+ * Klasa inicjujaca i rysujaca poziom gry. Rozszerza JPanel i implementuje
+ * Runnable.
  */
 
-public class Level extends JPanel implements Runnable /* KeyListener */ {
+public class Level extends JPanel implements Runnable {
 	/**
 	 * Obiekt klasy String przechowujacy sekwencje znakow definiujaca poziom,
 	 * wczytana z pliku konfiguracyjnego.
@@ -54,6 +58,16 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 	Player player;
 
 	/**
+	 * Zmienna liczbowa pomocna w animacji miedzy levelami. W przyszlosci
+	 * prawdopodobnie zniknie.
+	 */
+	private int i = 0;
+	/**
+	 * Zmienna typu boolean sprawdzajaca czy rozgrywka juz sie zaczela.
+	 */
+	private boolean hasStarted = false;
+
+	/**
 	 * Konstrukotr klasy Level; wczytuje definicje poziomu z plikow
 	 * konfiguracyjnych.
 	 *
@@ -64,9 +78,7 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 		numberOfLives = Config.getNumberOfLives();
 		initLevel();
 		this.setVisible(true);
-		this.setFocusable(true);
 		new Collision(this);
-		new KeyBindings(this);
 	}
 
 	/**
@@ -78,7 +90,11 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		printLevel(g);
+		if (!hasStarted) {
+			betweenAnimation(g);
+		} else {
+			printLevel(g);
+		}
 	}
 
 	/**
@@ -181,7 +197,7 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 	 */
 
 	private void printLevel(Graphics g) {
-
+		new KeyBindings(this);
 		ArrayList<Element> level = new ArrayList<>();
 		int heightOfElement = this.getHeight() / (this.getHeightOfBoard() + this.getWidth() / 100);
 		int widthOfElement = this.getWidth() / (this.getWidthOfBoard() + this.getHeight() / 100);
@@ -301,6 +317,7 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 
 	/**
 	 * Getter dla zmiennej movesCounter.
+	 * 
 	 * @return zwraca liczbe wykonanych ruchow.
 	 */
 	public int getMovesCounter() {
@@ -309,10 +326,37 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 
 	/**
 	 * Getter dla zmiennej numberOfLives.
+	 * 
 	 * @return zwraca liczbe zyc.
 	 */
 	public int getNumberOfLives() {
 		return numberOfLives;
+	}
+
+	/**
+	 * Metoda odpowiedzialna za animacje pomiedzy poziomami.
+	 * 
+	 * @param g
+	 */
+	private void betweenAnimation(Graphics g) {
+		int widthOfElement = this.getWidth() / 20;
+		int heightOfElement = this.getHeight() / 20;
+		ArrayList<Wall> Animation = new ArrayList<>();
+
+		for (int a = 0; a < i; a++) {
+			for (int b = 0; b < i; b++) {
+				Animation.add(new Wall(a, b));
+			}
+		}
+
+		for (Wall wall : Animation) {
+			Random rand = new Random();
+			wall.setX(widthOfElement * wall.getCollumn());
+			wall.setY(heightOfElement * wall.getRow());
+			wall.setDimension(widthOfElement, heightOfElement);
+			wall.setColor(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+			wall.drawWall(g);
+		}
 	}
 
 	/**
@@ -321,6 +365,11 @@ public class Level extends JPanel implements Runnable /* KeyListener */ {
 	@Override
 	public void run() {
 		while (true) {
+			if (i < 20) {
+				i++;
+			} else {
+				hasStarted = true;
+			}
 			repaint();
 			try {
 				Thread.sleep(100);

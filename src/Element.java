@@ -143,37 +143,41 @@ public class Element {
 
     /**
      * Metoda sprawdzajaca kolizje elementu lewej strony.
+     * 
      * @param element obiekt dla ktorego sprawdzamy kolizje.
      * @return true lub false
      */
-    public boolean isLeftCollision(Element element){
+    public boolean isLeftCollision(Element element) {
         return getRow() == element.getRow() && getCollumn() - 1 == element.getCollumn();
     }
 
     /**
      * Metoda sprawdzajaca kolizje elementu prawej strony.
+     * 
      * @param element obiekt dla ktorego sprawdzamy kolizje.
      * @return true lub false
      */
-    public boolean isRightCollision(Element element){
+    public boolean isRightCollision(Element element) {
         return getRow() == element.getRow() && getCollumn() + 1 == element.getCollumn();
     }
 
     /**
      * Metoda sprawdzajaca kolizje elementu z gory.
+     * 
      * @param element obiekt dla ktorego sprawdzamy kolizje.
      * @return true lub false
      */
-    public boolean isUpperCollision(Element element){
+    public boolean isUpperCollision(Element element) {
         return getRow() - 1 == element.getRow() && getCollumn() == element.getCollumn();
     }
 
     /**
      * Metoda sprawdzajaca kolizje elementu z dolu.
+     * 
      * @param element obiekt dla ktorego sprawdzamy kolizje.
      * @return true lub false
      */
-    public boolean isBottomCollision(Element element){
+    public boolean isBottomCollision(Element element) {
         return getRow() + 1 == element.getRow() && getCollumn() == element.getCollumn();
     }
 }

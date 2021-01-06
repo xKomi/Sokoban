@@ -86,10 +86,13 @@ public class Config {
             Properties properties = new Properties();
             properties.load(scoreFile);
             for (int i = 0; i < numberOfScores; i++) {
-                if(properties.getProperty("SCORE" + Integer.toString(i + 1)).length() >0);{
-                scoreList.add(properties.getProperty("SCORE" + Integer.toString(i + 1)));
-                //System.out.println("laodscorelist if " + i + properties.getProperty("SCORE" + Integer.toString(i + 1)));
-                //TODO: DO POPRAWY
+                if (properties.getProperty("SCORE" + Integer.toString(i + 1)).length() > 0)
+                    ;
+                {
+                    scoreList.add(properties.getProperty("SCORE" + Integer.toString(i + 1)));
+                    // System.out.println("laodscorelist if " + i + properties.getProperty("SCORE" +
+                    // Integer.toString(i + 1)));
+                    // TODO: DO POPRAWY
                 }
             }
         } catch (IOException e) {
@@ -126,6 +129,7 @@ public class Config {
 
     /**
      * Getter dla zmiennej numberOfLevels.
+     * 
      * @return liczba dostepnych poziomow.
      */
     public static int getNumberOfLevels() {
@@ -134,6 +138,7 @@ public class Config {
 
     /**
      * Getter dla zmiennej numberOfLives.
+     * 
      * @return domyslna liczba zyc.
      */
     public static int getNumberOfLives() {
@@ -147,7 +152,7 @@ public class Config {
         try (OutputStream scoreFile = new FileOutputStream("ScoreList.txt");) {
             Properties properties = new Properties();
             for (int i = 0; i < numberOfScores; i++) {
-                properties.setProperty("SCORE" + Integer.toString(i+1), scoreList.get(i));
+                properties.setProperty("SCORE" + Integer.toString(i + 1), scoreList.get(i));
             }
             properties.store(scoreFile, "");
         } catch (IOException e) {
@@ -156,7 +161,9 @@ public class Config {
     }
 
     /**
-     * Metoda sprawdzajaca czy wynik gracza powinien znalezc sie na liscie najlepszych wynikow i ewentualnie dodajaca ten wynik.
+     * Metoda sprawdzajaca czy wynik gracza powinien znalezc sie na liscie
+     * najlepszych wynikow i ewentualnie dodajaca ten wynik.
+     * 
      * @param newScore wynik osiagniety w ostatniej grze.
      */
     static void addScore(String newScore) {
@@ -173,9 +180,10 @@ public class Config {
             i++;
         }
     }
-    
+
     /**
      * Getter dla listy wynikow.
+     * 
      * @return lista wynikow.
      */
     static ArrayList<String> getScoreList() {
@@ -183,5 +191,3 @@ public class Config {
     }
 
 }
-
-

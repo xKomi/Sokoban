@@ -10,6 +10,7 @@ public class Collision {
 
     /**
      * Konstrukotr klasy Collision.
+     * 
      * @param level obiekt klasy Level.
      */
     public Collision(Level level) {
@@ -18,8 +19,10 @@ public class Collision {
 
     /**
      * Metoda sprawdzajaca kolizje elementu ze scianami.
-     * @param element element dla ktorego sprawdzane sa kolizje.
-     * @param direction obiekt klasy String informujacy z ktorej strony zachodzi kolizja (lewa, prawa, gora, dol).
+     * 
+     * @param element   element dla ktorego sprawdzane sa kolizje.
+     * @param direction obiekt klasy String informujacy z ktorej strony zachodzi
+     *                  kolizja (lewa, prawa, gora, dol).
      * @return metoda zwraca true lub false w zaleznosci od tego czy zaszla kolizja.
      */
     public static boolean checkWallCollision(Element element, String direction) {
@@ -64,7 +67,9 @@ public class Collision {
 
     /**
      * Metoda sprawdzajaca kolizje dla obiektow klasy Box.
-     * @param direction obiekt klasy String informujacy z ktorej strony zachodzi kolizja.
+     * 
+     * @param direction obiekt klasy String informujacy z ktorej strony zachodzi
+     *                  kolizja.
      * @return true lub false w zaleznosci od tego czy zachodzi kolizja.
      */
     public static boolean checkBoxCollision(String direction) {
@@ -83,7 +88,7 @@ public class Collision {
                             if (checkWallCollision(box1, direction)) {
                                 return true;
                             }
-                            if (checkPortalCollision(box1, direction)){
+                            if (checkPortalCollision(box1, direction)) {
                                 return true;
                             }
                         }
@@ -106,7 +111,7 @@ public class Collision {
                             if (checkWallCollision(box1, direction)) {
                                 return true;
                             }
-                            if (checkPortalCollision(box1, direction)){
+                            if (checkPortalCollision(box1, direction)) {
                                 return true;
                             }
                         }
@@ -129,7 +134,7 @@ public class Collision {
                             if (checkWallCollision(box1, direction)) {
                                 return true;
                             }
-                            if (checkPortalCollision(box1, direction)){
+                            if (checkPortalCollision(box1, direction)) {
                                 return true;
                             }
                         }
@@ -152,7 +157,7 @@ public class Collision {
                             if (checkWallCollision(box1, direction)) {
                                 return true;
                             }
-                            if (checkPortalCollision(box1, direction)){
+                            if (checkPortalCollision(box1, direction)) {
                                 return true;
                             }
                         }
@@ -169,8 +174,10 @@ public class Collision {
 
     /**
      * Metoda sprawdzajaca kolizje elementu z portalem.
-     * @param element element dla ktorego sprawdzana jest kolizja.
-     * @param direction obiekt klasy String informujacy z ktorej strony zachodzi kolizja.
+     * 
+     * @param element   element dla ktorego sprawdzana jest kolizja.
+     * @param direction obiekt klasy String informujacy z ktorej strony zachodzi
+     *                  kolizja.
      * @return true lub false w zaleznosci od tego czy zachodzi kolizja.
      */
     public static boolean checkPortalCollision(Element element, String direction) {

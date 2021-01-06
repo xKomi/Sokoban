@@ -2,11 +2,13 @@ import java.awt.*;
 import java.awt.Graphics2D;
 
 /**
- * Klasa reprezentujaca portal teleportujacy gracza lub paczke. Dziedziczy po klasie Element.
+ * Klasa reprezentujaca portal teleportujacy gracza lub paczke. Dziedziczy po
+ * klasie Element.
  */
 public class Portal extends Element {
     /**
-     * Pole typu String informujace w ktora strone skierowany jest portal (lewo, prawo, gora, dol).
+     * Pole typu String informujace w ktora strone skierowany jest portal (lewo,
+     * prawo, gora, dol).
      */
     private String direction;
 
@@ -16,6 +18,7 @@ public class Portal extends Element {
 
     /**
      * Metoda odpowiedzialna za rysowanie obiektu Portal.
+     * 
      * @param g kontekst graficzny klasy Graphics.
      */
     public void drawPortal(Graphics g) {
@@ -24,23 +27,23 @@ public class Portal extends Element {
         g2d.fillRect(this.getX(), this.getY(), this.getWidthOfElement(), this.getHeightOfElement());
         g2d.setColor(Color.BLACK);
         g2d.drawRect(this.getX(), this.getY(), this.getWidthOfElement(), this.getHeightOfElement());
-        g2d.setColor(Color.ORANGE);
+        g2d.setColor(new Color(0, 0, 139));
         if (direction == "LEFT") {
-            for (int i = 0; i < this.getWidthOfElement() / 10; i++) {
+            for (int i = 0; i < this.getWidthOfElement() / 4; i++) {
                 g2d.drawLine(this.getX() + this.getWidthOfElement() - i, this.getY(),
                         this.getX() + this.getWidthOfElement() - i, this.getY() + this.getHeightOfElement());
             }
         } else if (direction == "RIGHT") {
-            for (int i = 0; i < this.getWidthOfElement() / 10; i++) {
+            for (int i = 0; i < this.getWidthOfElement() / 4; i++) {
                 g2d.drawLine(this.getX() + i, this.getY(), this.getX() + i, this.getY() + this.getHeightOfElement());
             }
         } else if (direction == "UP") {
-            for (int i = 0; i < this.getHeightOfElement() / 10; i++) {
+            for (int i = 0; i < this.getHeightOfElement() / 4; i++) {
                 g2d.drawLine(this.getX(), this.getY() + this.getHeightOfElement() - i,
                         this.getX() + this.getWidthOfElement(), this.getY() + this.getHeightOfElement() - i);
             }
         } else if (direction == "DOWN") {
-            for (int i = 0; i < this.getHeightOfElement() / 10; i++) {
+            for (int i = 0; i < this.getHeightOfElement() / 4; i++) {
                 g2d.drawLine(this.getX(), this.getY() + i, this.getX() + this.getWidthOfElement(), this.getY() + i);
             }
         }
@@ -48,7 +51,9 @@ public class Portal extends Element {
 
     /**
      * Metoda ustawiajaca kierunek portalu.
-     * @param direction - zmienna oznaczajaca w ktora strone skierowany jest portal (lewo, prawo, gora ,dol).
+     * 
+     * @param direction - zmienna oznaczajaca w ktora strone skierowany jest portal
+     *                  (lewo, prawo, gora ,dol).
      */
     public void setDirection(String direction) {
         this.direction = direction;
@@ -56,7 +61,9 @@ public class Portal extends Element {
 
     /**
      * Metoda zwracajaca pole direction.
-     * @return Zwraca pole direction informujace w ktora strone skierowany jest portal (lewo, prawo, gora, dol).
+     * 
+     * @return Zwraca pole direction informujace w ktora strone skierowany jest
+     *         portal (lewo, prawo, gora, dol).
      */
     public String getDirection() {
         return direction;
@@ -64,10 +71,11 @@ public class Portal extends Element {
 
     /**
      * Metoda odpowiedzialna za przenoszenie elementu z jednego portalu do drugiego.
-     * @param exit Obiekt klasy portal; docelowe miejsce teleportacji.
+     * 
+     * @param exit    Obiekt klasy portal; docelowe miejsce teleportacji.
      * @param element Obiekt teleportowany do exit.
      */
-    public void teleport(Portal exit, Element element){
+    public void teleport(Portal exit, Element element) {
         if (exit.getDirection() == "LEFT") {
             element.setCollumn(exit.getCollumn() + 1);
             element.setRow(exit.getRow());
