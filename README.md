@@ -1,2 +1,2 @@
 # Sokoban
-Sokoban project for college
+Sokoban project for college. Work in progress...
